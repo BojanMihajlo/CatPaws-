@@ -1,10 +1,10 @@
 import React from 'react';
-import { View, Text, TextInput, StyleSheet,TouchableOpacity ,ImageBackground,Alert} from 'react-native';
+import { View, Text, TextInput, StyleSheet,TouchableOpacity ,ImageBackground,Alert,KeyboardAvoidingView,Platform} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { MotiView } from 'moti';
 import { useFonts, BerkshireSwash_400Regular } from '@expo-google-fonts/berkshire-swash';
 import  { useState,useEffect,useContext } from 'react';
-import { useNavigation } from '@react-navigation/native';
+// import { useNavigation } from '@react-navigation/native';
 import { ThemeContext } from './ThemeContext';
 
 
@@ -68,13 +68,16 @@ const LoginScreen = ({navigation}) => {
       if (!fontsLoaded) return null; 
 
   return (
-   
+    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} 
+    style={{flex:1}}
+    >
       <View style={styles.container}>
                     <ImageBackground
                         resizeMode="cover"
                         source={require(`../images/catpaw1.jpg`)}
                         style={styles.image}
                       >
+                        
                         <MotiView 
                               from={{ translateX: -200, opacity: 0 }} // Start off-screen left
                               animate={{ translateX: 0, opacity: 1 }} // Move to position
@@ -88,11 +91,11 @@ const LoginScreen = ({navigation}) => {
                               </MotiView>
       <View style={styles.view}>
       {/* <Text style={styles.title}>Login</Text> */}
-      <TextInput placeholder="Email" value={email} onChangeText={setEmail}  style={[styles.input, isFocused && styles.inputFocused]} 
+      <TextInput placeholder="Email" placeholderTextColor="#555" value={email} onChangeText={setEmail}  style={[styles.input, isFocused && styles.inputFocused]} 
        onFocus={() => setIsFocused(true)}   
         onBlur={() => setIsFocused(false)}   
       />
-      <TextInput placeholder="Password" value={password} onChangeText={setPassword} secureTextEntry  style={[styles.input, isFocused && styles.inputFocused]} 
+      <TextInput placeholder="Password" placeholderTextColor="#555" value={password} onChangeText={setPassword} secureTextEntry  style={[styles.input, isFocused && styles.inputFocused]} 
        onFocus={() => setIsFocused(true)} 
         onBlur={() => setIsFocused(false)}   
       />
@@ -103,17 +106,18 @@ const LoginScreen = ({navigation}) => {
         <Text style={{marginTop: 15, color:theme==="light"? '#97382a':"#57becb" }}>Don't have an account? Register</Text>
       </TouchableOpacity>
     </View>
+   
     </ImageBackground>
     </View>
    
-   
+    </KeyboardAvoidingView>
   );
 };
 
 const styles = StyleSheet.create({
   container: { flex: 1, justifyContent: 'center', alignItems: 'center' },
-  view:{flex:1,justifyContent:"center",alignItems:"center", marginBottom:160,marginRight:5},
-  titleView: {flex:1,alignItems:"center",justifyContent:"center",marginBottom:140},
+  view:{flex:2,justifyContent:"center",alignItems:"center", marginBottom:60,marginRight:5},
+  titleView: {flex:1,alignItems:"center",justifyContent:"center",marginBottom:80},
   input: { width: 200, height: 40, borderWidth: 1, marginBottom: 10, padding: 5,borderRadius:6 },
    inputFocused: {
     backgroundColor: "#f0f0f0", // Change color when typing
